@@ -4,4 +4,5 @@
     <string name="launch_menu">Launch Menu</string>
     <string name="line_info">Line Info</string>
     <string name="file_size">File Size</string>
+    <string name="open_file">Open File</string>
 </resources>
