@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Mini Code</string>
+    <string name="version">1.0</string>
+    <string name="launch_menu">Launch Menu</string>
+    <string name="line_info">Line Info</string>
+    <string name="file_size">File Size</string>
+</resources>
