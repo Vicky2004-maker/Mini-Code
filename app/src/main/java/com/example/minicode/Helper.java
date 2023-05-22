@@ -114,8 +114,6 @@ public class Helper {
     }
 
     public static void launchPermission(AppCompatActivity activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            activity.requestPermissions(PERMISSIONS, PERMISSION_REQ_CODE);
-        }
+        activity.requestPermissions(PERMISSIONS, PERMISSION_REQ_CODE);
     }
 }

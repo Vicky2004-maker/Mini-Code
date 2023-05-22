@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/openFileMenu"
-        app:showAsAction="always"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@+id/openFileMenu"
+        android:icon="@drawable/baseline_add_file"
         android:title="@string/open_file"
-        android:icon="@drawable/baseline_add_file"/>
+        android:iconTint="@color/material_dynamic_neutral30"
+        app:showAsAction="always" />
 </menu>

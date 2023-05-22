@@ -7,6 +7,46 @@
     android:orientation="vertical"
     tools:context=".CodeViewActivity">
 
+    <com.google.android.material.chip.ChipGroup
+        style="@style/Widget.Material3.ChipGroup"
+        android:id="@+id/chipGroup_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        app:chipSpacing="5dp"
+        app:singleLine="true"
+        app:singleSelection="true"
+        >
+
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chip1"
+            android:checkable="true"
+            app:closeIconEnabled="true"/>
+
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chip1"
+            android:checkable="true"
+            app:closeIconEnabled="true"/>
+
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chip1"
+            android:checkable="true"
+            app:closeIconEnabled="true"/>
+
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/open_file"
+            app:chipIcon="@drawable/outline_add" />
+
+    </com.google.android.material.chip.ChipGroup>
+
     <com.example.minicode.CodeViewBackend.CodeView
         android:id="@+id/codeView_main"
         android:layout_width="match_parent"

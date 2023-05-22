@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/fileSize_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/file_size"
+        app:layout_constraintBottom_toTopOf="@+id/totalLines_menu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fullScreen_menu" />
+
+    <TextView
+        android:id="@+id/totalLines_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/line_info"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/fileSize_menu"
+        app:layout_constraintTop_toTopOf="@+id/searchCode_menu" />
+
+    <ImageButton
+        android:id="@+id/copyAll_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/copy_code"
+        app:layout_constraintBottom_toTopOf="@+id/editCode_menu"
+        app:layout_constraintEnd_toEndOf="@+id/editCode_menu"
+        app:srcCompat="@drawable/baseline_copy" />
+
+    <ImageButton
+        android:id="@+id/fullScreen_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/full_screen"
+        android:src="@drawable/baseline_fullscreen"
+        app:layout_constraintEnd_toStartOf="@+id/copyAll_menu"
+        app:layout_constraintTop_toTopOf="@+id/copyAll_menu" />
+
+    <ImageButton
+        android:id="@+id/editCode_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/edit_code"
+        android:src="@drawable/baseline_edit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageButton
+        android:id="@+id/searchCode_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/search_code"
+        android:src="@drawable/baseline_search"
+        app:layout_constraintBottom_toBottomOf="@+id/editCode_menu"
+        app:layout_constraintEnd_toStartOf="@+id/editCode_menu" />
+
+    <ImageView
+        android:id="@+id/close_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="15dp"
+        android:contentDescription="@string/close_menu"
+        android:src="@drawable/baseline_close"
+        app:layout_constraintBottom_toTopOf="@+id/copyAll_menu"
+        app:layout_constraintEnd_toEndOf="@+id/copyAll_menu" />
+</androidx.constraintlayout.widget.ConstraintLayout>

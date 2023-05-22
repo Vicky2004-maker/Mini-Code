@@ -5,4 +5,9 @@
     <string name="line_info">Line Info</string>
     <string name="file_size">File Size</string>
     <string name="open_file">Open File</string>
+    <string name="copy_code">Copy Code</string>
+    <string name="full_screen">Full Screen</string>
+    <string name="edit_code">Edit Code</string>
+    <string name="search_code">Search in Code</string>
+    <string name="close_menu">Close Menu</string>
 </resources>
