@@ -72,10 +72,12 @@
         android:id="@+id/close_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginTop="15dp"
         android:contentDescription="@string/close_menu"
         android:src="@drawable/baseline_close"
         app:layout_constraintBottom_toTopOf="@+id/copyAll_menu"
-        app:layout_constraintEnd_toEndOf="@+id/copyAll_menu" />
+        app:layout_constraintEnd_toEndOf="@+id/copyAll_menu"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

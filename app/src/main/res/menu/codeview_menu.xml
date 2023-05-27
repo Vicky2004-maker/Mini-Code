@@ -8,4 +8,11 @@
         android:title="@string/open_file"
         android:iconTint="@color/material_dynamic_neutral30"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/settingsMenu"
+        android:icon="@drawable/settings"
+        android:title="@string/settings"
+        android:iconTint="@color/material_dynamic_neutral30"
+        app:showAsAction="ifRoom" />
 </menu>

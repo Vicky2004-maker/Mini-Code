@@ -8,38 +8,18 @@
     tools:context=".CodeViewActivity">
 
     <com.google.android.material.chip.ChipGroup
-        style="@style/Widget.Material3.ChipGroup"
         android:id="@+id/chipGroup_layout"
+        style="@style/Widget.Material3.ChipGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
+        android:visibility="gone"
         app:chipSpacing="5dp"
         app:singleLine="true"
-        app:singleSelection="true"
-        >
+        app:singleSelection="true">
 
         <com.google.android.material.chip.Chip
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Chip1"
-            android:checkable="true"
-            app:closeIconEnabled="true"/>
-
-        <com.google.android.material.chip.Chip
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Chip1"
-            android:checkable="true"
-            app:closeIconEnabled="true"/>
-
-        <com.google.android.material.chip.Chip
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Chip1"
-            android:checkable="true"
-            app:closeIconEnabled="true"/>
-
-        <com.google.android.material.chip.Chip
+            android:id="@+id/openFile_chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/open_file"
@@ -62,6 +42,7 @@
         android:id="@+id/menu_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/codeView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

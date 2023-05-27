@@ -12,7 +12,7 @@ import com.example.minicode.CodeViewBackend.Language;
 
 public class CodeFile {
     private String _Name;
-    private int _Size;
+    private double _Size;
     private final Uri _Path;
     private Language _Language;
     private int _Lines;
@@ -26,23 +26,35 @@ public class CodeFile {
         init();
     }
 
+    public String get_Code() {
+        return _Code;
+    }
+
     private void init() {
         this._Name = getFileName(_Context, _Path);
         this._Code = readFile(_Context, _Path);
         this._Lines = getLines(_Context, _Code);
-        this._Size = Integer.parseInt(getFileSize(_Context, _Path));
+        this._Size = getFileSize(_Context, _Path);
     }
 
     public String get_Name() {
         return _Name;
     }
 
-    public int get_Size() {
+    public double get_Size() {
         return _Size;
+    }
+
+    public String getSizeStr() {
+        return get_Size() + " KB";
     }
 
     public String get_Path() {
         return String.valueOf(_Path);
+    }
+
+    public Uri get_PathURI() {
+        return this._Path;
     }
 
     public Language get_Language() {

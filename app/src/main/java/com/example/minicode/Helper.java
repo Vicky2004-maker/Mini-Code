@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,6 +34,8 @@ public class Helper {
             "android.permission.WRITE_EXTERNAL_STORAGE"
     };
     public static final String PREFERENCE_NAME = "application";
+
+    public static boolean isFullScreen = false;
 
     public static void pickFile(@NonNull AppCompatActivity activity) {
         Intent filePicker = new Intent(Intent.ACTION_OPEN_DOCUMENT);
@@ -74,14 +77,14 @@ public class Helper {
         return fileName;
     }
 
-    public static String getFileSize(Context context, Uri uri) {
+    public static double getFileSize(Context context, Uri uri) {
         Cursor returnCursor = context.getContentResolver().query(uri, null, null, null, null);
         int sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE);
         returnCursor.moveToFirst();
         String size = returnCursor.getString(sizeIndex);
         returnCursor.close();
-        //TODO: Change the return value to decimal format
-        return size;
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        return Double.parseDouble(decimalFormat.format(Double.parseDouble(size) / 1000d));
     }
 
     public static int getLines(@NonNull Context context, @NonNull final String code) {
@@ -105,12 +108,16 @@ public class Helper {
     }
 
     public static boolean checkPermissions(Context context) {
-        int[] temp = new int[PERMISSIONS.length];
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            return true;
+        } else {
+            int[] temp = new int[PERMISSIONS.length];
 
-        for (int i = 0; i < PERMISSIONS.length; i++)
-            temp[i] = (int) context.checkCallingOrSelfPermission(PERMISSIONS[i]);
+            for (int i = 0; i < PERMISSIONS.length; i++)
+                temp[i] = (int) context.checkCallingOrSelfPermission(PERMISSIONS[i]);
 
-        return arraySum(temp) == 0;
+            return arraySum(temp) == 0;
+        }
     }
 
     public static void launchPermission(AppCompatActivity activity) {
