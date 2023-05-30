@@ -8,24 +8,21 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.TextureView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import static com.example.minicode.Helper.*;
 
@@ -34,6 +31,7 @@ import com.example.minicode.CodeViewBackend.Language;
 import com.example.minicode.CodeViewBackend.Theme;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Objects;
@@ -51,22 +49,39 @@ public class CodeViewActivity extends AppCompatActivity {
 
     Dialog dialog;
 
+    private ChipGroup chipGroupLayout;
+    private LinearLayout chipContainer;
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         switch (requestCode) {
             case PICK_FILE_CODE: {
                 if (data != null) {
-                    CodeFile codeFile = new CodeFile(CodeViewActivity.this, data.getData());
-                    codeFileList.add(codeFile);
-                    _CodeFile = codeFile;
-                    menuBar.setVisibility(View.VISIBLE);
-                    initializeCodeView(codeFile.get_Code());
+                    if(codeFileList.stream().noneMatch(x -> data.getData().equals(x.get_PathURI()))) {
+                        CodeFile codeFile = new CodeFile(CodeViewActivity.this, data.getData());
+                        codeFileList.add(codeFile);
+                        _CodeFile = codeFile;
+                        menuBar.setVisibility(View.VISIBLE);
+                        initializeCodeView(codeFile.get_Code());
 
-                    lineInfo_textView.setText(String.valueOf(_CodeFile.get_Lines()));
-                    fileSize_textView.setText(_CodeFile.getSizeStr());
+                        lineInfo_textView.setText(String.valueOf(_CodeFile.get_Lines()));
+                        fileSize_textView.setText(_CodeFile.getSizeStr());
 
-                    Objects.requireNonNull(getSupportActionBar()).setSubtitle(getFileName(CodeViewActivity.this, codeFile.get_PathURI()));
+                        Objects.requireNonNull(getSupportActionBar()).setSubtitle(getFileName(CodeViewActivity.this, codeFile.get_PathURI()));
+
+                        if (codeFileList.size() == 2) {
+                            chipGroupLayout.setVisibility(View.VISIBLE);
+                            createNewChip(codeFileList.get(0).get_Name(), 0);
+                            createNewChip(codeFileList.get(1).get_Name(), 1);
+                        } else if (codeFileList.size() > 2) {
+                            createNewChip(_CodeFile.get_Name(), codeFileList.size() - 1);
+                        }
+                    } else {
+                        Toast.makeText(CodeViewActivity.this, "File Already Opened", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(CodeViewActivity.this, "No File Selected", Toast.LENGTH_SHORT).show();
                 }
                 break;
             }
@@ -96,6 +111,8 @@ public class CodeViewActivity extends AppCompatActivity {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.progress_layout);
 
+        chipContainer = findViewById(R.id.chip_container);
+        chipGroupLayout = findViewById(R.id.chipGroup_layout);
         codeView = findViewById(R.id.codeView_main);
         menuBar = findViewById(R.id.menu_bar);
         codeView_fab = findViewById(R.id.codeView_fab);
@@ -103,7 +120,28 @@ public class CodeViewActivity extends AppCompatActivity {
         fileSize_textView = findViewById(R.id.fileSize_textView);
         lineInfo_textView = findViewById(R.id.lineInfo_textView);
 
+        openFile_chip.setOnClickListener(a -> pickFile(CodeViewActivity.this));
         codeView_fab.setOnClickListener(a -> bottomMenuSheet());
+    }
+
+    private void createNewChip(@NonNull final String fileName, final int chipId) {
+        Chip chip = new Chip(CodeViewActivity.this);
+        chip.setId(chipId);
+        chip.setText(fileName);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        layoutParams.setMargins(5, 0, 5, 0);
+        chip.setLayoutParams(layoutParams);
+        chip.setOnClickListener(a -> {
+            ;
+        });
+        chipContainer.addView(chip);
+    }
+
+    private void setActiveFile() {
+
     }
 
     private void bottomMenuSheet() {
@@ -169,6 +207,7 @@ public class CodeViewActivity extends AppCompatActivity {
     }
 
     private void initializeCodeView(@NonNull final String code) {
+        //TODO: Improve Dialog
         codeView.setTheme(Theme.ANDROIDSTUDIO)
                 .setOnHighlightListener(new CodeView.OnHighlightListener() {
                     @Override
