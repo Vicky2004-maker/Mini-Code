@@ -13,6 +13,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +35,8 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class CodeViewActivity extends AppCompatActivity {
@@ -49,6 +52,8 @@ public class CodeViewActivity extends AppCompatActivity {
 
     Dialog dialog;
 
+    private List<Chip> chipList = new ArrayList<>();
+
     private ChipGroup chipGroupLayout;
     private LinearLayout chipContainer;
 
@@ -58,18 +63,12 @@ public class CodeViewActivity extends AppCompatActivity {
         switch (requestCode) {
             case PICK_FILE_CODE: {
                 if (data != null) {
-                    if(codeFileList.stream().noneMatch(x -> data.getData().equals(x.get_PathURI()))) {
+                    if (codeFileList.stream().noneMatch(x -> data.getData().equals(x.get_PathURI()))) {
                         CodeFile codeFile = new CodeFile(CodeViewActivity.this, data.getData());
                         codeFileList.add(codeFile);
                         _CodeFile = codeFile;
                         menuBar.setVisibility(View.VISIBLE);
-                        initializeCodeView(codeFile.get_Code());
-
-                        lineInfo_textView.setText(String.valueOf(_CodeFile.get_Lines()));
-                        fileSize_textView.setText(_CodeFile.getSizeStr());
-
-                        Objects.requireNonNull(getSupportActionBar()).setSubtitle(getFileName(CodeViewActivity.this, codeFile.get_PathURI()));
-
+                        setActiveFile(codeFileList.size() - 1);
                         if (codeFileList.size() == 2) {
                             chipGroupLayout.setVisibility(View.VISIBLE);
                             createNewChip(codeFileList.get(0).get_Name(), 0);
@@ -91,7 +90,11 @@ public class CodeViewActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.openFileMenu) pickFile(CodeViewActivity.this);
+        if (item.getItemId() == R.id.openFileMenu) {
+            pickFile(CodeViewActivity.this);
+        } else if (item.getItemId() == R.id.settingsMenu) {
+            startActivity(new Intent(CodeViewActivity.this, SettingsActivity.class));
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -126,6 +129,7 @@ public class CodeViewActivity extends AppCompatActivity {
 
     private void createNewChip(@NonNull final String fileName, final int chipId) {
         Chip chip = new Chip(CodeViewActivity.this);
+        chipList.add(chip);
         chip.setId(chipId);
         chip.setText(fileName);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -134,14 +138,31 @@ public class CodeViewActivity extends AppCompatActivity {
         );
         layoutParams.setMargins(5, 0, 5, 0);
         chip.setLayoutParams(layoutParams);
+        chip.setCheckable(true);
+        setActiveChip(chip);
         chip.setOnClickListener(a -> {
-            ;
+            setActiveChip((Chip) a);
+            setActiveFile(a.getId());
         });
         chipContainer.addView(chip);
     }
 
-    private void setActiveFile() {
+    private void setActiveChip(final Chip chip) {
+        chipList.forEach(x -> x.setChecked(x.equals(chip)));
+    }
 
+    private void setActiveFile(final int index) {
+        _CodeFile = codeFileList.get(index);
+        runOnUiThread(() -> {
+            initializeCodeView(_CodeFile.get_Code());
+            changeInfo();
+        });
+    }
+
+    private void changeInfo() {
+        fileSize_textView.setText(_CodeFile.getSizeStr());
+        lineInfo_textView.setText(_CodeFile.getLineInfo());
+        Objects.requireNonNull(getSupportActionBar()).setSubtitle(_CodeFile.get_Name());
     }
 
     private void bottomMenuSheet() {

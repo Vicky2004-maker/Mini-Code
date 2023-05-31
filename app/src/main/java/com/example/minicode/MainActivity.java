@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import java.util.Objects;
+import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             privacyPolicyDialog();
         }
+
+
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.minicode;
 
+import static com.example.minicode.Helper.getChars;
 import static com.example.minicode.Helper.getFileName;
 import static com.example.minicode.Helper.getFileSize;
 import static com.example.minicode.Helper.getLines;
@@ -11,13 +12,14 @@ import android.net.Uri;
 import com.example.minicode.CodeViewBackend.Language;
 
 public class CodeFile {
+    private final Context _Context;
     private String _Name;
     private double _Size;
     private final Uri _Path;
     private Language _Language;
     private int _Lines;
+    private int _CharsCount;
 
-    private final Context _Context;
     private String _Code;
 
     public CodeFile(Context context, Uri _Path) {
@@ -30,11 +32,20 @@ public class CodeFile {
         return _Code;
     }
 
+    public int get_CharsCount() {
+        return _CharsCount;
+    }
+
+    public String getLineInfo() {
+        return get_Lines() + " (" + get_CharsCount() + ")";
+    }
+
     private void init() {
         this._Name = getFileName(_Context, _Path);
         this._Code = readFile(_Context, _Path);
         this._Lines = getLines(_Context, _Code);
         this._Size = getFileSize(_Context, _Path);
+        this._CharsCount = getChars(_Code);
     }
 
     public String get_Name() {

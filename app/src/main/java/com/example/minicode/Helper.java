@@ -66,6 +66,10 @@ public class Helper {
         return sb.toString();
     }
 
+    public static int getChars(@NonNull final String code) {
+        return code.length();
+    }
+
     public static String getFileName(Context context, Uri uri) {
         @SuppressLint("Recycle")
         Cursor returnCursor = context.getContentResolver().query(uri, null, null, null, null);
